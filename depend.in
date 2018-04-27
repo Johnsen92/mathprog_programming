@@ -1,0 +1,9 @@
+obj/Instance.o: src/Instance.cpp src/Instance.h src/Tools.h
+obj/kMST_ILP.o: src/kMST_ILP.cpp src/kMST_ILP.h src/Tools.h src/Instance.h \
+ src/CutCallback.h src/Maxflow.h
+obj/Tools.o: src/Tools.cpp src/Tools.h
+obj/CutCallback.o: src/CutCallback.cpp src/CutCallback.h src/Instance.h \
+ src/Tools.h src/Maxflow.h
+obj/Maxflow.o: src/Maxflow.cpp src/Maxflow.h
+obj/Main.o: src/Main.cpp src/Tools.h src/Instance.h src/kMST_ILP.h \
+ src/CutCallback.h src/Maxflow.h
