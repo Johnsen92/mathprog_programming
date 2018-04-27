@@ -19,6 +19,7 @@ private:
 	string model_type;
 	int k;
 	u_int m, n;
+	u_int objective_value;
 
 	IloEnv env;
 	IloModel model;
@@ -38,7 +39,7 @@ public:
 
 	kMST_ILP( Instance& _instance, string _model_type, int _k );
 	~kMST_ILP();
-	void solve();
+	u_int solve();
 
 };
 

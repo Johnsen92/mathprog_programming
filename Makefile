@@ -43,6 +43,8 @@ CPP_SOURCES = \
 	src/Tools.cpp \
 	src/CutCallback.cpp \
 	src/Maxflow.cpp \
+	src/Test.cpp \
+	src/TestInstance.cpp \
 
 
 # $< the name of the related file that caused the action.
@@ -103,7 +105,10 @@ doc: all
 	doxygen doc/doxygen.cfg
 
 run: kmst
-	./kmst -f data/g01.dat -m "SCF" -k 5
+	./kmst -f data/g06.dat -m "SCF" -k 40
+
+test: kmst
+	./kmst -m SCF -t test/test.in
 
 # ------ include dependency file ---------------------------------------------------
 include depend.in

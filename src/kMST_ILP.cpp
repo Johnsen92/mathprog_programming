@@ -6,9 +6,10 @@ kMST_ILP::kMST_ILP( Instance& _instance, string _model_type, int _k ) :
 	n = instance.n_nodes;
 	m = instance.n_edges;
 	if( k == 0 ) k = n;
+	objective_value = 0;
 }
 
-void kMST_ILP::solve()
+u_int kMST_ILP::solve()
 {
 	// initialize CPLEX solver
 	initCPLEX();
@@ -158,6 +159,7 @@ void kMST_ILP::solve()
 		cout << "Branch-and-Bound nodes: " << cplex.getNnodes() << "\n";
 		cout << "Objective value: " << cplex.getObjValue() << "\n";
 		cout << "CPU time: " << Tools::CPUtime() << "\n\n";
+		objective_value = cplex.getObjValue();
 
 	}
 	catch( IloException& e ) {
@@ -168,6 +170,7 @@ void kMST_ILP::solve()
 		cerr << "kMST_ILP: unknown exception.\n";
 		exit( -1 );
 	}
+	return objective_value;
 }
 
 // ----- private methods -----------------------------------------------
