@@ -4,9 +4,7 @@ kMST_ILP::kMST_ILP( Instance& _instance, string _model_type, int _k ) :
 	instance( _instance ), model_type( _model_type ), k( _k ), epInt( 0.0 ), epOpt( 0.0 )
 {
 	n = instance.n_nodes;
-	n_v0 = instance.n_nodes + 1;
 	m = instance.n_edges;
-	m_v0 = m + n;
 	if( k == 0 ) k = n;
 }
 
@@ -15,25 +13,14 @@ void kMST_ILP::solve()
 	// initialize CPLEX solver
 	initCPLEX();
 
-	// add artificial root node v0 and edges from v0 to every other node
-	instance.edges.resize(m_v0);
-	instance.incidentEdges.resize(n_v0);
-	for(u_int id=0; id<n; id++){
-		instance.edges[m + id].v1 = n;
-		instance.edges[m + id].v2 = id;
-		instance.edges[m + id].weight = 0;
-		instance.incidentEdges[n].push_back(m + id);
-		instance.incidentEdges[id].push_back(m + id);
-	}
-
 	// initialize variables
-	x = IloIntVarArray(env, m_v0);
-	y = IloBoolVarArray(env, m_v0*2);
-	f = IloIntVarArray(env, m_v0*2);
+	x = IloIntVarArray(env, m);
+	y = IloBoolVarArray(env, m*2);
+	f = IloIntVarArray(env, m*2);
 
 	// objective function
 	IloExpr objt(env);
-	for(u_int i=0; i<m_v0; i++){
+	for(u_int i=0; i<m; i++){
 
 		// initialize edge variables
 		stringstream name_edge;
@@ -71,7 +58,7 @@ void kMST_ILP::solve()
 	// add flow constraints
 	IloExpr expr_flow;
 	IloExpr expr_flow_min(env);
-	for(u_int i=0; i<n; i++){
+	for(u_int i=1; i<n; i++){
 		list<u_int>::iterator it;
 		expr_flow = IloExpr(env);
 		for(it = instance.incidentEdges[i].begin(); it != instance.incidentEdges[i].end(); ++it){
@@ -108,7 +95,7 @@ void kMST_ILP::solve()
 	IloExpr expr_token(env);
 	IloExpr expr_root(env);
 	list<u_int>::iterator it;
-	for(it = instance.incidentEdges[n].begin(); it != instance.incidentEdges[n].end(); ++it){
+	for(it = instance.incidentEdges[0].begin(); it != instance.incidentEdges[0].end(); ++it){
 		expr_token += f[(*it)*2];
 		expr_root += x[(*it)];
 	}
@@ -124,7 +111,7 @@ void kMST_ILP::solve()
 	// add flow domain constraints >= 0
 	IloExpr expr_domain_flow_lower;
 	IloExpr expr_domain_flow_upper;
-	for(int i=0; i<m_v0*2; i++){
+	for(int i=0; i<m*2; i++){
 		expr_domain_flow_lower = IloExpr(env);
 		expr_domain_flow_lower += f[i];
 		model.add(expr_domain_flow_lower >= 0);

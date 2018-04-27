@@ -103,7 +103,7 @@ doc: all
 	doxygen doc/doxygen.cfg
 
 run: kmst
-	./kmst -f data/g02.dat -m "SCF" -k 4
+	./kmst -f data/g01.dat -m "SCF" -k 5
 
 # ------ include dependency file ---------------------------------------------------
 include depend.in

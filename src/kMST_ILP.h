@@ -18,7 +18,7 @@ private:
 	Instance& instance;
 	string model_type;
 	int k;
-	u_int m, m_v0, n, n_v0;
+	u_int m, n;
 
 	IloEnv env;
 	IloModel model;
