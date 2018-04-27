@@ -84,11 +84,11 @@ u_int kMST_ILP::solve()
 		};
 
 		// add flow constraint to model
-		model.add(expr_flow <= 1);
+		model.add(expr_flow <= 1 && expr_flow >= 0);
 		expr_flow.end();
 
 		// add min flow constraint to model
-		model.add(expr_flow_min <= 1);
+		model.add(expr_flow_min == k);
 		expr_flow.end();
 	}
 
