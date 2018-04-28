@@ -15,7 +15,7 @@ u_int kMST_ILP::solve()
 	initCPLEX();
 
 	// initialize variables
-	x = IloIntVarArray(env, m);
+	x = IloBoolVarArray(env, m);
 	y = IloBoolVarArray(env, m*2);
 	f = IloIntVarArray(env, m*2);
 
@@ -26,7 +26,7 @@ u_int kMST_ILP::solve()
 		// initialize edge variables
 		stringstream name_edge;
 		name_edge << "x_" << i;
-		x[i] = IloIntVar(env, name_edge.str().c_str());
+		x[i] = IloBoolVar(env, name_edge.str().c_str());
 
 		// initialize arc variables
 		stringstream name_arc1;
@@ -69,7 +69,7 @@ u_int kMST_ILP::solve()
 				expr_flow_min += f[(*it)*2];
 			}else if(instance.edges[(*it)].v1 == i){
 				expr_flow += f[(*it)*2+1];
-				expr_flow_min += f[(*it)*2];
+				expr_flow_min += f[(*it)*2+1];
 			}
 
 			// subtract all flows away from node i
@@ -84,7 +84,7 @@ u_int kMST_ILP::solve()
 		};
 
 		// add flow constraint to model
-		model.add(expr_flow <= 1 && expr_flow >= 0);
+		model.add(expr_flow <= 1);
 		expr_flow.end();
 	}
 
