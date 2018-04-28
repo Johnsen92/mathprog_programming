@@ -1,0 +1,12 @@
+SCF:
+ instance   k  exp.optimum  obj.value   w8.sum  cpu.time  bnb.nodes   result 
+----------------------------------------------------------------------------
+ g01.dat    2        46        46         46         0        0        pass
+ g01.dat    5       477       477        477      0.03       23        pass
+ g02.dat    4       373       373        373      0.22       31        pass
+ g02.dat   10      1390      1390       1390      1.79     1621        pass
+ g03.dat   10       725       725        725      3.61      970        pass
+ g03.dat   25      3074      3074       3074     12.86      749        pass
+ g04.dat   14       909       909        909     20.44     1375        pass
+ g04.dat   35      3292      3291       3292     54.31     5620        pass
+8/8 tests passed 
