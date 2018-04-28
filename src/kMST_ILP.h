@@ -3,6 +3,8 @@
 
 #include "Tools.h"
 #include "Instance.h"
+#include <string> 
+#include <regex>
 #include "CutCallback.h"
 #include <ilcplex/ilocplex.h>
 

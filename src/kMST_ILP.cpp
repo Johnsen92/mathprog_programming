@@ -159,7 +159,26 @@ u_int kMST_ILP::solve()
 		cout << "Branch-and-Bound nodes: " << cplex.getNnodes() << "\n";
 		cout << "Objective value: " << cplex.getObjValue() << "\n";
 		cout << "CPU time: " << Tools::CPUtime() << "\n\n";
-		objective_value = cplex.getObjValue();
+
+		// get variable values for edge decision variable x
+		values = IloNumArray(env, m);
+		cplex.getValues(values, x);
+
+
+		// print solution
+		ofstream solution("res/sol_" + instance.instance_file.replace(0,5,"").replace(3,8,"") + "_" + to_string(k) + ".out"); 
+		solution << "Solution: " << endl;
+		u_int weight_sum = 0;
+		for(u_int i=0; i<m; i++){
+			if(values[i] > 0){
+				solution << i << ": " << instance.edges[i].v1 << "-";
+				solution << instance.edges[i].v2 << " (" << instance.edges[i].weight << ")" << endl;
+				weight_sum += instance.edges[i].weight;
+			}
+		}
+		solution << "Weight sum: " << weight_sum << endl;
+		objective_value = weight_sum;
+		solution.close();
 
 	}
 	catch( IloException& e ) {
