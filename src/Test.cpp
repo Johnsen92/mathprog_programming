@@ -22,6 +22,29 @@ Test::Test( string file, string model_type_ ) :
 	ifs.close();
 }
 
+// return latex result table
+void Test::print_latex(ofstream& file){
+	file << "\\begin{tabular}{ c | l | l | l | l | l | l }" << endl;
+	file << "\t\\Instance & k & exp.optimum & obj.value & w8.sum & cpu.time & bnb.nodes " << endl;
+	file << "\t\\hline" << endl;
+
+	list<TestInstance>::iterator it;
+	for(it = test_instances.begin(); it != test_instances.end(); ++it){
+		string instance_file = it->instance_file;
+		Stats s = it->statistic;
+		file << "\t" << instance_file.replace(0,5,"") << " & ";
+		file << it->k << " & ";
+		file << it->expected_optimum << " & ";
+		file << s.objective_value << " & ";
+		file << s.weight_sum << " & ";
+		file << s.cpu_time << " & ";
+		file << s.bnb_nodes << "\\\\" << endl;
+	}
+
+	file << "\\end{tabular}" << endl;
+	
+}
+
 bool Test::run(ofstream& results){
 	run(results, test_instances.size());
 }

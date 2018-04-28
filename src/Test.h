@@ -28,6 +28,9 @@ public:
     // run test instance at list index
     bool run(ofstream& results, u_int n_instances);
 
+    // return latex result table
+    void print_latex(ofstream& file);
+
     // to string function
     friend ostream& operator<<(ostream& strm, const Test& test) {
         int tab = 10;
