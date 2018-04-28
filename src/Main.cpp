@@ -57,9 +57,12 @@ int main( int argc, char *argv[] )
 	else{
 		// do test
 		Test test(test_file, model_type);
-		ofstream results("test_results.out", ofstream::out);
-		test.run(results, 6);
+		ofstream results("res/test_results.out", ofstream::out);
+		ofstream latex("res/test_results.tex", ofstream::out);
+		test.run(results, 2);
+		test.print_latex(latex);
 		results.close();
+		latex.close();
 	}
 
 	return 0;

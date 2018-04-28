@@ -1,10 +1,6 @@
 SCF:
- instance	| k | exp.optimum | optimum | result 
+ instance             k  exp.optimum  optimum   result 
 -----------------------------------------------------
- data/g01.dat	  | 2 | 46 | 113 | fail
- data/g01.dat	  | 5 | 477 | 476 | fail
- data/g02.dat	  | 4 | 373 | 373 | pass
- data/g02.dat	  | 10 | 1390 | 1460 | fail
- data/g03.dat	  | 10 | 725 | 840 | fail
- data/g03.dat	  | 25 | 3074 | 3127 | fail
-1/6 tests passed 
+ data/g01.dat         2        46        46      pass
+ data/g01.dat         5       477       477      pass
+2/2 tests passed 

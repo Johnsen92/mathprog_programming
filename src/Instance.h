@@ -21,6 +21,8 @@ public:
 		int weight;
 	};
 
+	// instance file name
+	string instance_file;
 	// number of nodes and edges
 	u_int n_nodes, n_edges;
 	// array of edges

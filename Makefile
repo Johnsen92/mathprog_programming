@@ -21,7 +21,7 @@ CPPFLAGS = -DIL_STD \
 	-isystem $(CPLEX_DIR)/cplex/include \
 	-isystem $(CPLEX_DIR)/concert/include
 
-CXXFLAGS += -Wfatal-errors -Wno-non-virtual-dtor -pipe
+CXXFLAGS += -Wfatal-errors -Wno-non-virtual-dtor -pipe -std=c++0x
 
 LDFLAGS = -L$(CPLEX_DIR)/cplex/lib/$(ARCH)_linux/static_pic \
 	-L$(CPLEX_DIR)/concert/lib/$(ARCH)_linux/static_pic
@@ -109,6 +109,7 @@ run: kmst
 
 test: kmst
 	./kmst -m SCF -t test/test.in
+	cat res/test_results.out
 
 # ------ include dependency file ---------------------------------------------------
 include depend.in

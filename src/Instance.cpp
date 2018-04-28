@@ -1,7 +1,7 @@
 #include "Instance.h"
 
 Instance::Instance( string file ) :
-	n_nodes( 0 ), n_edges( 0 )
+	instance_file(file), n_nodes( 0 ), n_edges( 0 )
 {
 	ifstream ifs( file.c_str() );
 	if( ifs.fail() ) {

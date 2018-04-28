@@ -6,10 +6,9 @@ kMST_ILP::kMST_ILP( Instance& _instance, string _model_type, int _k ) :
 	n = instance.n_nodes;
 	m = instance.n_edges;
 	if( k == 0 ) k = n;
-	objective_value = 0;
 }
 
-u_int kMST_ILP::solve()
+Stats kMST_ILP::solve()
 {
 	// initialize CPLEX solver
 	initCPLEX();
@@ -132,7 +131,12 @@ u_int kMST_ILP::solve()
 	// ++++++++++++++++++++++++++++++++++++++++++
 	// TODO create variables and build constraints
 	// ++++++++++++++++++++++++++++++++++++++++++
-
+	// init statistic
+	Stats statistic;
+	statistic.objective_value = 0;
+	statistic.bnb_nodes = 0;
+	statistic.cpu_time = 0;
+	statistic.weight_sum = 0;
 	try {
 		// build model
 		cplex = IloCplex( model );
@@ -159,7 +163,31 @@ u_int kMST_ILP::solve()
 		cout << "Branch-and-Bound nodes: " << cplex.getNnodes() << "\n";
 		cout << "Objective value: " << cplex.getObjValue() << "\n";
 		cout << "CPU time: " << Tools::CPUtime() << "\n\n";
-		objective_value = cplex.getObjValue();
+
+		// get variable values for edge decision variable x
+		values = IloNumArray(env, m);
+		cplex.getValues(values, x);
+
+
+		// print solution
+		ofstream solution("res/" + instance.instance_file.replace(0,5,"").replace(3,8,"") + "_" + to_string(k) + ".sol"); 
+		solution << "Solution: " << endl;
+		u_int weight_sum = 0;
+		for(u_int i=0; i<m; i++){
+			if(values[i] > 0){
+				solution << i << ": " << instance.edges[i].v1 << "-";
+				solution << instance.edges[i].v2 << " (" << instance.edges[i].weight << ")" << endl;
+				weight_sum += instance.edges[i].weight;
+			}
+		}
+		solution << "Weight sum: " << weight_sum << endl;
+		solution.close();
+
+		// set statistic
+		statistic.weight_sum = weight_sum;
+		statistic.objective_value = cplex.getObjValue();
+		statistic.cpu_time = Tools::CPUtime();
+		statistic.bnb_nodes = cplex.getNnodes();
 
 	}
 	catch( IloException& e ) {
@@ -170,7 +198,7 @@ u_int kMST_ILP::solve()
 		cerr << "kMST_ILP: unknown exception.\n";
 		exit( -1 );
 	}
-	return objective_value;
+	return statistic;
 }
 
 // ----- private methods -----------------------------------------------
