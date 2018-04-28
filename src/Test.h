@@ -32,8 +32,15 @@ public:
     friend ostream& operator<<(ostream& strm, const Test& test) {
         int tab = 10;
         strm << test.model_type << ":" << endl;
-        strm << " instance" << setw(tab+5) << " k " << setw(tab) << " exp.optimum " << setw(tab-1) << " optimum " << setw(tab-1) << " result " << endl;
-        strm << "------------------------------------------------------" << endl;
+        strm << " instance" << setw(tab-5);
+        strm << " k " << setw(tab);
+        strm << " exp.optimum " << setw(tab-1);
+        strm << " obj.value " << setw(tab-1);
+        strm << " w8.sum " << setw(tab-1);
+        strm << " cpu.time " << setw(tab-1);
+        strm << " bnb.nodes " << setw(tab-1);
+        strm << " result " << endl;
+        strm << "----------------------------------------------------------------------------" << endl;
         return strm;
     }
 };

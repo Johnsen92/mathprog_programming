@@ -20,10 +20,10 @@ public:
 	u_int k;
 	// expected optimum
 	u_int expected_optimum;
-    // optimum of the test instance
-    u_int optimum;
     // model type
     string model_type;
+    // statistic of latest model run
+    Stats statistic;
 
     // constructor
 	TestInstance( string model_type_, string instance_file_, u_int k_, u_int expected_optimum_ );
@@ -34,11 +34,15 @@ public:
     // to string function
     friend ostream& operator<<(ostream& strm, const TestInstance& test_instance) {
         int tab = 10;
-        strm << " " << test_instance.instance_file << setw(tab);
+        string instance_name = test_instance.instance_file;
+        strm << " " << instance_name.replace(0,5,"") << setw(tab-5);
         strm << test_instance.k << setw(tab);
         strm << test_instance.expected_optimum << setw(tab);
-        strm << test_instance.optimum << setw(tab);
-        strm << ( test_instance.optimum == test_instance.expected_optimum ? "pass" : "fail" );
+        strm << test_instance.statistic.objective_value << setw(tab+1);
+        strm << test_instance.statistic.weight_sum << setw(tab);
+        strm << test_instance.statistic.cpu_time << setw(tab-1);
+        strm << test_instance.statistic.bnb_nodes << setw(tab+2);
+        strm << ( test_instance.statistic.weight_sum == test_instance.expected_optimum ? "pass" : "fail" );
         return strm;
     }
 

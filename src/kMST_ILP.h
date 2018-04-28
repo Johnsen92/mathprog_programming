@@ -4,7 +4,6 @@
 #include "Tools.h"
 #include "Instance.h"
 #include <string> 
-#include <regex>
 #include "CutCallback.h"
 #include <ilcplex/ilocplex.h>
 
@@ -12,16 +11,22 @@ using namespace std;
 
 ILOSTLBEGIN
 
+struct Stats
+{
+    u_int objective_value;
+    u_int weight_sum;
+    double cpu_time;
+    u_int bnb_nodes;
+};
+
 class kMST_ILP
 {
 
 private:
-
 	Instance& instance;
 	string model_type;
 	int k;
 	u_int m, n;
-	u_int objective_value;
 
 	IloEnv env;
 	IloModel model;
@@ -41,7 +46,7 @@ public:
 
 	kMST_ILP( Instance& _instance, string _model_type, int _k );
 	~kMST_ILP();
-	u_int solve();
+	Stats solve();
 
 };
 

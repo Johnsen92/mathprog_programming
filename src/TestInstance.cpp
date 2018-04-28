@@ -15,9 +15,9 @@ bool TestInstance::run(ofstream& results){
 	kMST_ILP ilp( instance, model_type, k );
 
 	// solve instance
-	optimum = ilp.solve();
+	statistic = ilp.solve();
 
 	// test results
-	return optimum == expected_optimum;
+	return statistic.weight_sum == expected_optimum;
 }
 
