@@ -58,7 +58,7 @@ int main( int argc, char *argv[] )
 		// do test
 		Test test(test_file, model_type);
 		ofstream results("test_results.out", ofstream::out);
-		test.run(results, 6);
+		test.run(results, 2);
 		results.close();
 	}
 

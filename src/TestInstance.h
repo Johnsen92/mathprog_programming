@@ -33,11 +33,11 @@ public:
 
     // to string function
     friend ostream& operator<<(ostream& strm, const TestInstance& test_instance) {
-        string div = " | ";
-        strm << " " << test_instance.instance_file << "\t " << div;
-        strm << test_instance.k << div;
-        strm << test_instance.expected_optimum << div;
-        strm << test_instance.optimum << div;
+        int tab = 10;
+        strm << " " << test_instance.instance_file << setw(tab);
+        strm << test_instance.k << setw(tab);
+        strm << test_instance.expected_optimum << setw(tab);
+        strm << test_instance.optimum << setw(tab);
         strm << ( test_instance.optimum == test_instance.expected_optimum ? "pass" : "fail" );
         return strm;
     }

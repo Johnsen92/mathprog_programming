@@ -30,10 +30,10 @@ public:
 
     // to string function
     friend ostream& operator<<(ostream& strm, const Test& test) {
-        string div = "|";
+        int tab = 10;
         strm << test.model_type << ":" << endl;
-        strm << " instance\t" << div << " k " << div << " exp.optimum " << div << " optimum " << div << " result " << endl;
-        strm << "-----------------------------------------------------" << endl;
+        strm << " instance" << setw(tab+5) << " k " << setw(tab) << " exp.optimum " << setw(tab-1) << " optimum " << setw(tab-1) << " result " << endl;
+        strm << "------------------------------------------------------" << endl;
         return strm;
     }
 };

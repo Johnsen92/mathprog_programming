@@ -109,6 +109,7 @@ run: kmst
 
 test: kmst
 	./kmst -m SCF -t test/test.in
+	cat test_results.out
 
 # ------ include dependency file ---------------------------------------------------
 include depend.in
