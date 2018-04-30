@@ -39,6 +39,8 @@ STARTUP_SOURCE = $(SRCDIR)/Main.cpp
 
 CPP_SOURCES = \
 	src/Instance.cpp \
+	src/SCF_kMST_ILP.cpp \
+	src/MCF_kMST_ILP.cpp \
 	src/kMST_ILP.cpp \
 	src/Tools.cpp \
 	src/CutCallback.cpp \
@@ -108,8 +110,12 @@ run: kmst
 	./kmst -f data/g06.dat -m "SCF" -k 40
 
 test: kmst
-	./kmst -m SCF -t test/test.in
-	cat res/test_results.out
+	./kmst -m 1 -t test/test.in -n 0,10
+	cat res/*_results.out
+
+nightly: kmst
+	./kmst -m 0 -t test/test.in
+	./kmst -m 1 -t test/test.in
 
 # ------ include dependency file ---------------------------------------------------
 include depend.in

@@ -5,10 +5,17 @@
 #include <string>
 #include <fstream>
 #include "Instance.h"
-#include "kMST_ILP.h"
+#include "SCF_kMST_ILP.h"
+#include "MCF_kMST_ILP.h"
 #include <ilcplex/ilocplex.h>
 
 using namespace std;
+
+enum model_t
+{
+    SCF = 0,
+	MCF
+};
 
 class TestInstance
 {
@@ -21,12 +28,14 @@ public:
 	// expected optimum
 	u_int expected_optimum;
     // model type
-    string model_type;
+    model_t model_type;
     // statistic of latest model run
     Stats statistic;
+    // finished flag
+    bool finished;
 
     // constructor
-	TestInstance( string model_type_, string instance_file_, u_int k_, u_int expected_optimum_ );
+	TestInstance( model_t model_type_, string instance_file_, u_int k_, u_int expected_optimum_ );
 
     // run test instance
     bool run(ofstream& results);

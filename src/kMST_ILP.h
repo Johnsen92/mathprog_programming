@@ -22,7 +22,7 @@ struct Stats
 class kMST_ILP
 {
 
-private:
+protected:
 	Instance& instance;
 	string model_type;
 	int k;
@@ -32,21 +32,13 @@ private:
 	IloModel model;
 	IloCplex cplex;
 
-	IloIntVarArray x; // edge selection variables
-	IloIntVarArray f; // flow variables
-	IloBoolVarArray y; // arc selection variables
-
-	IloNumArray values; // to store result values of x
-
 	double epInt, epOpt;
-
 	void initCPLEX();
 
 public:
-
 	kMST_ILP( Instance& _instance, string _model_type, int _k );
 	~kMST_ILP();
-	Stats solve();
+	virtual Stats solve() = 0;
 
 };
 
