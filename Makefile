@@ -41,6 +41,7 @@ CPP_SOURCES = \
 	src/Instance.cpp \
 	src/SCF_kMST_ILP.cpp \
 	src/MCF_kMST_ILP.cpp \
+	src/CEC_kMST_ILP.cpp \
 	src/kMST_ILP.cpp \
 	src/Tools.cpp \
 	src/CutCallback.cpp \
@@ -110,7 +111,7 @@ run: kmst
 	./kmst -f data/g06.dat -m "SCF" -k 40
 
 test: kmst
-	./kmst -m 1 -t test/test.in -n 0,10
+	./kmst -m 0 -t test/test.in -n 14
 	cat res/*_results.out
 
 nightly: kmst

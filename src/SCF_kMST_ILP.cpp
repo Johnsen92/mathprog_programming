@@ -12,6 +12,7 @@ Stats SCF_kMST_ILP::solve()
 
 	// objective function
 	IloExpr objt(env);
+	IloExpr expr_total_edge_constraint(env);
 	for(u_int i=0; i<m; i++){
 
 		// initialize edge variables
@@ -47,9 +48,16 @@ Stats SCF_kMST_ILP::solve()
 		expr_arc_edge.end();
 		expr_edge_domain.end();
 
+		// build total edge constraint
+		expr_total_edge_constraint += x[i];
+
 		// add edge variable times weight term to objective function
 		objt += x[i]*instance.edges[i].weight;
 	}
+
+	// add total edge constraint to model
+	model.add(expr_total_edge_constraint <= k);
+	expr_total_edge_constraint.end();
 
 	// add flow constraints
 	IloExpr expr_flow;
@@ -82,6 +90,39 @@ Stats SCF_kMST_ILP::solve()
 		model.add(expr_flow <= 1);
 		expr_flow.end();
 	}
+
+
+	// arborescence structure constraints
+	IloExpr expr_arc_out;
+	IloExpr expr_arc_in;
+	for(u_int i=1; i<n; i++){
+		list<u_int>::iterator it;
+		expr_arc_out = IloExpr(env);
+		expr_arc_in = IloExpr(env);
+		for(it = instance.incidentEdges[i].begin(); it != instance.incidentEdges[i].end(); ++it){
+			// add all incoming arcs of node i
+			if(instance.edges[(*it)].v2 == i){
+				expr_arc_in += y[(*it)*2];
+			}else if(instance.edges[(*it)].v1 == i){
+				expr_arc_in += y[(*it)*2+1];
+			}
+
+			// add all outoing arcs from node i
+			if(instance.edges[(*it)].v1 == i){
+				expr_arc_out += y[(*it)*2];
+			}
+			else if(instance.edges[(*it)].v2 == i){
+				expr_arc_out += y[(*it)*2+1];
+			}
+		}
+
+		// add arc and node constraints to model
+		model.add(expr_arc_out <= expr_arc_in*n);
+		model.add(expr_arc_in <= 1);
+		expr_arc_out.end();
+		expr_arc_in.end();
+	}
+
 
 	// add min flow constraint to model
 	model.add(expr_flow_min == k);
@@ -142,7 +183,7 @@ Stats SCF_kMST_ILP::solve()
 		epInt = cplex.getParam( IloCplex::EpInt );
 		epOpt = cplex.getParam( IloCplex::EpOpt );
 		// only use a single thread
-		cplex.setParam( IloCplex::Threads, 1 );
+		cplex.setParam( IloCplex::Threads, 8 );
 
 		// set cut- and lazy-constraint-callback for
 		// cycle-elimination cuts ("cec") or directed connection cuts ("dcc")

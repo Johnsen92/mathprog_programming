@@ -7,6 +7,7 @@
 #include "Instance.h"
 #include "SCF_kMST_ILP.h"
 #include "MCF_kMST_ILP.h"
+#include "CEC_kMST_ILP.h"
 #include <ilcplex/ilocplex.h>
 
 using namespace std;
@@ -14,7 +15,8 @@ using namespace std;
 enum model_t
 {
     SCF = 0,
-	MCF
+	MCF,
+    CEC
 };
 
 class TestInstance

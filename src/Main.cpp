@@ -81,8 +81,11 @@ int main( int argc, char *argv[] )
 			case MCF:
 				ilp = new MCF_kMST_ILP( instance, k );
 				break;
+			case CEC:
+				ilp = new CEC_kMST_ILP( instance, k );
+				break;
 			default:
-				cout << "Unexpected model id: " << model_type << ". Options are 0=SCF, 1=MCF" << endl;
+				cout << "Unexpected model id: " << model_type << ". Options are 0=SCF, 1=MCF, 2=CEC" << endl;
 				return -1;
 		}
 		ilp->solve();
@@ -91,7 +94,7 @@ int main( int argc, char *argv[] )
 	else{
 		// do test
 		Test test(test_file, model_type);
-		string model_type_string = (model_type == 0 ? "SCF" : "MCF");
+		string model_type_string = (model_type == 0 ? "SCF" : (model_type == 1 ? "MCF" : "CEC"));
 		ofstream results("res/" + model_type_string + "_results.out", ofstream::out);
 		ofstream latex("res/" + model_type_string + "_results.tex", ofstream::out);
 		test.run(results, test_params);

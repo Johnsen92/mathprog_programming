@@ -3,13 +3,8 @@ Multi-Commodity-Flows:
  instance   k  exp.optimum  obj.value   w8.sum  cpu.time  bnb.nodes   result 
 ----------------------------------------------------------------------------
  g01.dat    2        46        46         46      0.04        0        pass
- g01.dat    5       477       477        477      0.14        0        pass
- g02.dat    4       373       373        373      0.57      389        pass
- g02.dat   10      1390      1390       1390      1.08        0        pass
- g03.dat   10       725       725        725     16.33     1039        pass
- g03.dat   25      3074      3074       3074     31.22        0        pass
- g04.dat   14       909       909        909    251.16      779        pass
- g04.dat   35      3292      3292       3292    407.32      153        pass
- g05.dat   20      1235      1234       1235    847.35      618        pass
- g05.dat   50      4898      4898       4898   1263.32        0        pass
-10/10 tests passed 
+ g01.dat    5       477       477        477      0.15        0        pass
+ g02.dat    4       373       373        373      0.59      389        pass
+ g02.dat   10      1390      1390       1390      1.13        0        pass
+ g03.dat   10       725       725        725     16.31     1039        pass
+ g03.dat   25      3074      3074       3074     31.21        0        pass

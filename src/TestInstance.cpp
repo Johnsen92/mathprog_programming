@@ -20,8 +20,11 @@ bool TestInstance::run(ofstream& results){
 		case MCF:
 			ilp = new MCF_kMST_ILP( instance, k );
 			break;
+		case CEC:
+			ilp = new CEC_kMST_ILP( instance, k );
+			break;
 		default:
-			cout << "Unexpected model id: " << model_type << ". Options are 0=SCF, 1=MCF" << endl;
+			cout << "Unexpected model id: " << model_type << ". Options are 0=SCF, 1=MCF, 2=CEC" << endl;
 	}
 	statistic = ilp->solve();
 	delete ilp;
