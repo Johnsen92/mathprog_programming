@@ -111,7 +111,7 @@ run: kmst
 	./kmst -f data/g06.dat -m "SCF" -k 40
 
 test: kmst
-	./kmst -m 0 -t test/test.in -n 14
+	./kmst -m 2 -t test/test.in -n 0,3
 	cat res/*_results.out
 
 nightly: kmst

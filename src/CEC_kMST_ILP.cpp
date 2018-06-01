@@ -153,10 +153,10 @@ Stats CEC_kMST_ILP::solve()
 
 		// set cut- and lazy-constraint-callback for
 		// cycle-elimination cuts ("cec") or directed connection cuts ("dcc")
-		CutCallback* usercb = new CutCallback( env, "CEC", epOpt, instance, x, z );
+		/* CutCallback* usercb = new CutCallback( env, "CEC", epOpt, instance, x, z );
 		CutCallback* lazycb = new CutCallback( env, "CEC", epOpt, instance, x, z );
 		cplex.use( (UserCutI*) usercb );
-		cplex.use( (LazyConsI*) lazycb );
+		cplex.use( (LazyConsI*) lazycb ); */
 
 		// solve model
 		cout << "Calling CPLEX solve ...\n";
