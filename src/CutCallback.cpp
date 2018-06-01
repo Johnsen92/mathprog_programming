@@ -12,8 +12,8 @@ CutCallback::~CutCallback()
 
 void CutCallback::separate()
 {
-	if( cut_type == "dcc" ) connectionCuts();
-	else if( cut_type == "cec" ) cycleEliminationCuts();
+	if( cut_type == "DCC" ) connectionCuts();
+	else if( cut_type == "CEC" ) cycleEliminationCuts();
 }
 
 /*
