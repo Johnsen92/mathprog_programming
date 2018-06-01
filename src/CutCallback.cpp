@@ -4,6 +4,12 @@ CutCallback::CutCallback( IloEnv& _env, string _cut_type, double _eps, Instance&
 	LazyConsI( _env ), UserCutI( _env ), env( _env ), cut_type( _cut_type ), eps( _eps ), instance( _instance ), x( _x ), z( _z )
 {
 	arc_weights.resize( 2 * instance.n_edges );
+	arcs.resize( 2 * instance.n_edges );
+
+	for (u_int i = 0; i < m; i++) {
+		arcs[i*2] = Arc{instance.edges[i].v1, instance.edges[i].v2, instance.edges[i].weight};
+		arcs[i*2+1] = Arc{instance.edges[i].v2, instance.edges[i].v1, instance.edges[i].weight};
+	}
 }
 
 CutCallback::~CutCallback()
@@ -85,6 +91,13 @@ void CutCallback::cycleEliminationCuts()
 		// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		// TODO find violated cycle elimination cut inequalities
 		// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		for (u_int i = 0; i < m * 2; i++) {
+			arc_weights[i] = 1 - xval[i];
+		}
+
+		for (u_int i = 0; i < m * 2; i++) {
+			
+		}
 
 		// add found violated cut to model
 		//if( lazy ) LazyConsI::add( ... );
@@ -181,4 +194,3 @@ CutCallback::SPResultT CutCallback::shortestPath( u_int source, u_int target )
 	}
 	return sp;
 }
-

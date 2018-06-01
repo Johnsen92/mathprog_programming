@@ -7,6 +7,11 @@
 
 using namespace std;
 
+struct Arc{
+	u_int v1, v2;
+	int weight;
+};
+
 class UserCutI: public IloCplex::UserCutCallbackI
 {
 
@@ -113,6 +118,8 @@ private:
 	//                                arc (v2,v1) with id <i+m>
 	// (returns list of arc ids of a shortest path and the according weight)
 	SPResultT shortestPath( u_int source, u_int target );
+
+	vector<Arc> arcs;
 
 public:
 
