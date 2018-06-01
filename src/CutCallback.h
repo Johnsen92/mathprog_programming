@@ -86,6 +86,7 @@ private:
 	Instance& instance;
 	IloBoolVarArray& x;
 	IloBoolVarArray& z;
+	IloBoolVarArray& y;
 
 	void separate();
 
@@ -123,7 +124,7 @@ private:
 
 public:
 
-	CutCallback( IloEnv& _env, string _cut_type, double _eps, Instance& _instance, IloBoolVarArray& _x, IloBoolVarArray& _z );
+	CutCallback( IloEnv& _env, string _cut_type, double _eps, Instance& _instance, IloBoolVarArray& _x, IloBoolVarArray& _z, IloBoolVarArray& _y );
 	virtual ~CutCallback();
 
 	// entry for lazy constraint callback (called for integer solutions)

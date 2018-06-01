@@ -1,12 +1,13 @@
 #include "CutCallback.h"
 
-CutCallback::CutCallback( IloEnv& _env, string _cut_type, double _eps, Instance& _instance, IloBoolVarArray& _x, IloBoolVarArray& _z ) :
-	LazyConsI( _env ), UserCutI( _env ), env( _env ), cut_type( _cut_type ), eps( _eps ), instance( _instance ), x( _x ), z( _z )
+CutCallback::CutCallback( IloEnv& _env, string _cut_type, double _eps, Instance& _instance, IloBoolVarArray& _x, IloBoolVarArray& _z, IloBoolVarArray& _y ) :
+	LazyConsI( _env ), UserCutI( _env ), env( _env ), cut_type( _cut_type ), eps( _eps ), instance( _instance ), x( _x ), z( _z ), y( _y )
 {
 	arc_weights.resize( 2 * instance.n_edges );
+
 	arcs.resize( 2 * instance.n_edges );
 
-	for (u_int i = 0; i < m; i++) {
+	for (u_int i = 0; i < instance.n_edges; i++) {
 		arcs[i*2] = Arc{instance.edges[i].v1, instance.edges[i].v2, instance.edges[i].weight};
 		arcs[i*2+1] = Arc{instance.edges[i].v2, instance.edges[i].v1, instance.edges[i].weight};
 	}
@@ -27,7 +28,7 @@ void CutCallback::separate()
  */
 void CutCallback::connectionCuts()
 {
-	try {
+	/*try {
 
 		u_int n = instance.n_nodes;
 		u_int m = instance.n_edges;
@@ -63,7 +64,7 @@ void CutCallback::connectionCuts()
 	catch( ... ) {
 		cerr << "CutCallback: unknown exception.\n";
 		exit( -1 );
-	}
+	}*/
 }
 
 /*
@@ -71,6 +72,9 @@ void CutCallback::connectionCuts()
  */
 void CutCallback::cycleEliminationCuts()
 {
+
+
+	/*cout << "serssers" << endl << endl;
 	try {
 
 		u_int n = instance.n_nodes;
@@ -91,17 +95,34 @@ void CutCallback::cycleEliminationCuts()
 		// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		// TODO find violated cycle elimination cut inequalities
 		// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		for (u_int i = 0; i < m * 2; i++) {
+		
+		for(u_int i=0; i<m*2; i++) {
 			arc_weights[i] = 1 - xval[i];
 		}
 
-		for (u_int i = 0; i < m * 2; i++) {
-			
-		}
+		u_int cut_counter = 0;
+		for(u_int i=0; i<m*2 && cut_counter < 50; i++) {
+			SPResultT res = shortestPath(arcs[i].v2, arcs[i].v1);
+			double weight_sum = res.weight + arc_weights[i];
+			if(weight_sum < 1){
+				cut_counter++;
+				// add found violated cut to model
+				IloExpr expr_cec_cut(env);
+				expr_cec_cut += y[i];
+				list<u_int>::iterator ptr;
+				for(ptr = res.path.begin(); ptr != res.path.end(); ptr++)
+					expr_cec_cut += y[*ptr];
 
-		// add found violated cut to model
-		//if( lazy ) LazyConsI::add( ... );
-		//else UserCutI::add( ... );
+				// add constraint to model
+				int list_size = res.path.size();
+				if( lazy ) 
+					LazyConsI::add(expr_cec_cut <= list_size);
+				else 
+					UserCutI::add(expr_cec_cut <= list_size);
+
+				expr_cec_cut.end();
+			}
+		}
 
 		xval.end();
 		zval.end();
@@ -114,7 +135,7 @@ void CutCallback::cycleEliminationCuts()
 	catch( ... ) {
 		cerr << "CutCallback: unknown exception.\n";
 		exit( -1 );
-	}
+	}*/
 }
 
 /*
@@ -194,3 +215,4 @@ CutCallback::SPResultT CutCallback::shortestPath( u_int source, u_int target )
 	}
 	return sp;
 }
+
