@@ -2,3 +2,4 @@ obj/*
 Makefile
 kmst
 gmon.out
+.vscode/*
